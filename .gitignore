@@ -77,6 +77,7 @@ fabric.properties
 db.sqlite3
 music/*
 *.pyc
+media/*
 
 # End of https://www.gitignore.io/api/pycharm
 
