@@ -19,16 +19,20 @@ import io
 
 @after_response.enable
 def play_file(file_name, id=0):
+
     # create an audio object
     wf = wave.open(file_name, 'rb')
     p = pyaudio.PyAudio()
     chunk = 1024
     redis_key = "stop-%d" % id
 
+    if cache.get(redis_key):
+        cache.delete(redis_key)
+
     def callback(in_data, frame_count, time_info, status):
+
         if cache.get(redis_key):
 
-            cache.delete(redis_key)
             stream.stop_stream()
             stream.close()
             wf.close()
